@@ -100,83 +100,22 @@ class DiagonalMatrix :
 public:
     DiagonalMatrix() {}
     DiagonalMatrix(int n, vector<double> & a, vector<double> & b, vector<double> & c, vector<double> & f);
-    DiagonalMatrix(int n)
-    {
-        _size = n;
-        resize(_size + 1);
-
-        for (int i = 0; i < _size + 1; i++) at(i).resize(n);
-    }
+    DiagonalMatrix(int n);
     ~DiagonalMatrix();
 
     void a(int i, double value);
     double & a(int i);
-
     void b(int i, double value);
     double & b(int i);
-    
     void c(int i, double value);
     double & c(int i);
-
     void f(int i, double value);
     double & f(int i);
-
-    void swapRows(int from, int to)
-    {
-        for (int i = 0; i < _size + 1; i++)
-        {
-            double f = at(i).at(from);
-            at(i).at(from) = at(i).at(to);
-            at(i).at(to) = f;
-        }
-    }
-
-    void swapColumns(int from, int to)
-    {
-        for (int i = 0; i < _size; i++)
-        {
-            double f = at(from).at(i);
-            at(from).at(i) = at(to).at(i);
-            at(to).at(i) = f;
-        }
-    }
-
-    Row row(int j)
-    {
-        Row r(_size + 1);
-        for (int i = 0; i < _size + 1; i++)
-        {
-            r.at(i) = &at(i).at(j);
-        }
-        return r;
-    }
-
-    Column column(int i)
-    {
-        Column c(_size);
-        for (int j = 0; j < _size; j++)
-        {
-            c.at(j) = &at(i).at(j);
-        }
-        return c;
-    }
-
-    DiagonalMatrix submatrix(vector<int> mask)
-    {
-        DiagonalMatrix result(mask.size());
-
-        for (int i = 0; i < mask.size(); i++)
-        {
-            for (int j = 0; j < mask.size(); j++)
-            {
-                result[j][i] = at(mask[j]).at(mask[i]);
-            }
-
-            result[mask.size()][i] = at(_size).at(mask[i]);
-        }
-
-        return result;
-    }
+    void swapRows(int from, int to);
+    void swapColumns(int from, int to);
+    Row row(int j);
+    Column column(int i);
+    DiagonalMatrix submatrix(vector<int> mask);
 
     friend ostream & operator<<(ostream & os, const DiagonalMatrix & m)
     {

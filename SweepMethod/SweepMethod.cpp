@@ -42,45 +42,43 @@ void test(int n, vector<double> & a, vector<double> & b, vector<double> & c, vec
     srand(time(NULL));
     for (int i = 0; i < n; i++)
     {
-        root[i] = rand() % 5 + 1;
+        root[i] = rand() % 100 + 1;
     }
 
     a[0] = 0;
-    b[0] = rand() % 5 + 1;
-    c[0] = rand() % 5 + 1;
+    b[0] = rand() % 100 + 1;
+    c[0] = rand() % 100 + 1;
     f[0] = c[0] * root[0] + b[0] * root[1];
 
     for (int i = 1; i < n - 1; i++)
     {
-        a[i] = rand() % 5 + 1;
-        b[i] = rand() % 5 + 1;
-        c[i] = rand() % 5 + 1;
+        a[i] = rand() % 100 + 1;
+        b[i] = rand() % 100 + 1;
+        c[i] = rand() % 100 + 1;
         f[i] = a[i] * root[i - 1] + c[i] * root[i] + b[i] * root[i + 1];
     }
 
-    a[n-1] = rand() % 5 + 1;
+    a[n-1] = rand() % 100 + 1;
     b[n-1] = 0;
-    c[n-1] = rand() % 5 + 1;
+    c[n-1] = rand() % 100 + 1;
     f[n-1] = a[n-1] * root[n-2] + c[n-1] * root[n-1];
 }
 
 
 int main()
 {
-    int size = 500;
+    int size = 100;
     vector<double> foundRoot;
     vector<double> allegedRoot(size);
     vector<double> a(size), b(size), c(size), f(size);
-    for (int i = 0; i < 1; i++)
-    {
-        test(size, a, b, c, allegedRoot, f);
-        //debug(size, a, b, c, f, allegedRoot);
-        DiagonalMatrix dm(size, a, b, c, f);
-        //cout << dm << endl;
-        SOLE sole(size, dm, 5);
-        sole.solve();
-        foundRoot = sole.root();
-    }
+
+    test(size, a, b, c, allegedRoot, f);
+    //debug(size, a, b, c, f, allegedRoot);
+    DiagonalMatrix dm(size, a, b, c, f);
+    //cout << dm << endl;
+    SOLE sole(size, dm, 5);
+    sole.solve();
+    foundRoot = sole.root();
 
     for (int i = 0; i < foundRoot.size(); i++)
     {

@@ -17,6 +17,14 @@ DiagonalMatrix::DiagonalMatrix(int n, vector<double> & a, vector<double> & b, ve
     }
 }
 
+DiagonalMatrix::DiagonalMatrix(int n)
+{
+    _size = n;
+    resize(_size + 1);
+
+    for (int i = 0; i < _size + 1; i++) at(i).resize(n);
+}
+
 DiagonalMatrix::~DiagonalMatrix()
 {
 }
@@ -63,6 +71,63 @@ double & DiagonalMatrix::f(int i)
     if (i > _size - 1) return _err;
 
     return at(_size).at(i);
+}
+
+void DiagonalMatrix::swapRows(int from, int to)
+{
+    for (int i = 0; i < _size + 1; i++)
+    {
+        double f = at(i).at(from);
+        at(i).at(from) = at(i).at(to);
+        at(i).at(to) = f;
+    }
+}
+
+void DiagonalMatrix::swapColumns(int from, int to)
+{
+    for (int i = 0; i < _size; i++)
+    {
+        double f = at(from).at(i);
+        at(from).at(i) = at(to).at(i);
+        at(to).at(i) = f;
+    }
+}
+
+Row DiagonalMatrix::row(int j)
+{
+    Row r(_size + 1);
+    for (int i = 0; i < _size + 1; i++)
+    {
+        r.at(i) = &at(i).at(j);
+    }
+    return r;
+}
+
+Column DiagonalMatrix::column(int i)
+{
+    Column c(_size);
+    for (int j = 0; j < _size; j++)
+    {
+        c.at(j) = &at(i).at(j);
+    }
+    return c;
+}
+
+DiagonalMatrix DiagonalMatrix::submatrix(vector<int> mask)
+{
+    DiagonalMatrix result(mask.size());
+
+    for (int i = 0; i < mask.size(); i++)
+    {
+        for (int j = 0; j < mask.size(); j++)
+        {
+            result[j][i] = at(mask[j]).at(mask[i]);
+        }
+
+        result[mask.size()][i] = at(_size).at(mask[i]);
+    }
+
+    return result;
 }
 
 double & DiagonalMatrix::a(int i) {
